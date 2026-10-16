@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <title>الحلو للشحن والتبريد — تسجيل الدخول</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1677F2">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <meta http-equiv="cache-control" content="no-cache">
+
+  <style>
+    /*
+  Tajawal / Cairo are used only if installed on the device; otherwise a system Arabic font.
+  Clients have no internet before login, so nothing is loaded remotely.
+  To embed Tajawal: upload tajawal.woff2 to the hotspot folder and uncomment:
+  @font-face{font-family:"Tajawal";src:url("tajawal.woff2") format("woff2");font-weight:400 800;font-display:swap}
+*/
+    :root {
+      --blue: #1677F2;
+      --navy: #15304B;
+      --pale: #EFF6FF;
+      --line: #D7E5F5;
+      --muted: #4A6580;
+      --ph: #5B7289;
+      --err-bg: #FEF2F2;
+      --err-line: #F3BDBB;
+      --err-text: #9B1C1C;
+      --font: "Tajawal", "Cairo", "Segoe UI", Tahoma, "Noto Sans Arabic", system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      background: #fff;
+      color: var(--navy);
+      font-family: var(--font);
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-x: hidden
+    }
+
+    body::before {
+      /* one quiet shape, fixed so it never causes scrolling */
+      content: "";
+      position: fixed;
+      z-index: -1;
+      pointer-events: none;
+      border-radius: 50%;
+      background: var(--pale);
+      width: 260px;
+      height: 260px;
+      top: -130px;
+      inset-inline-end: -90px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0
+    }
+
+    .page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: calc(env(safe-area-inset-top, 0px) + 14px) calc(env(safe-area-inset-right, 0px) + 20px) calc(env(safe-area-inset-bottom, 0px) + 10px) calc(env(safe-area-inset-left, 0px) + 20px);
+    }
+
+    .stage {
+      flex: 1;
+      width: 100%;
+      max-width: 400px;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px
+    }
+
+    /* brand */
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center
+    }
+
+    .brand svg {
+      width: 56px;
+      height: 56px;
+      display: block
+    }
+
+    .brand-name {
+      margin: 0;
+      font-size: clamp(19px, 6vw, 24px);
+      font-weight: 800;
+      line-height: 1.3;
+      white-space: nowrap
+    }
+
+    /* card */
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 16px 16px;
+      box-shadow: 0 1px 2px rgba(21, 48, 75, .05), 0 10px 24px -14px rgba(21, 48, 75, .2);
+    }
+
+    .card h1 {
+      margin: 0;
+      font-size: clamp(20px, 6vw, 24px);
+      font-weight: 800;
+      line-height: 1.3
+    }
+
+    .sub {
+      margin: 2px 0 14px;
+      color: var(--muted);
+      font-size: 15px
+    }
+
+    .alert {
+      display: none;
+      margin: 0 0 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--err-bg);
+      border: 1px solid var(--err-line);
+      color: var(--err-text);
+      font-size: 15px;
+      font-weight: 500;
+      overflow-wrap: anywhere
+    }
+
+    .alert.show {
+      display: block
+    }
+
+    .alert small {
+      display: block;
+      margin-top: 2px;
+      direction: ltr;
+      text-align: right;
+      opacity: .75;
+      font-size: 12px
+    }
+
+    .alert-src {
+      display: none
+    }
+
+    .field {
+      margin-bottom: 10px
+    }
+
+    .control {
+      position: relative
+    }
+
+    .ico {
+      position: absolute;
+      inset-inline-start: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: #6C86A1;
+      pointer-events: none
+    }
+
+    .control input {
+      width: 100%;
+      height: 50px;
+      margin: 0;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-size: 16px;
+      padding: 0 46px 0 14px;
+      direction: ltr;
+      text-align: right;
+      /* physical: icon sits on the right */
+      -webkit-appearance: none;
+      appearance: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .control input::placeholder {
+      color: var(--ph);
+      opacity: 1;
+      font-family: var(--font)
+    }
+
+    .control.has-toggle input {
+      padding-left: 48px
+    }
+
+    .control input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(22, 119, 242, .22)
+    }
+
+    .control input[aria-invalid="true"] {
+      border-color: #D92D20
+    }
+
+    .field-err {
+      display: none;
+      margin: 4px 2px 0;
+      color: var(--err-text);
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .field-err.show {
+      display: block
+    }
+
+    .toggle {
+      position: absolute;
+      inset-inline-end: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 10px;
+      color: #6C86A1;
+      cursor: pointer
+    }
+
+    .toggle svg {
+      width: 20px;
+      height: 20px
+    }
+
+    .toggle:focus-visible {
+      outline: 3px solid rgba(22, 119, 242, .4);
+      outline-offset: -2px;
+      color: var(--blue)
+    }
+
+    /* buttons */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--blue);
+      font: inherit;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1;
+      text-decoration: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color .15s ease, border-color .15s ease, transform .12s ease;
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid rgba(22, 119, 242, .4);
+      outline-offset: 2px
+    }
+
+    .btn:active {
+      transform: scale(.98)
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      margin-top: 14px
+    }
+
+    .btn-primary:active {
+      background: #0F63D1;
+      border-color: #0F63D1
+    }
+
+    .btn-primary[disabled] {
+      opacity: .75;
+      cursor: default
+    }
+
+    .btn-secondary {
+      background: var(--pale);
+      color: var(--blue);
+      margin-top: 10px
+    }
+
+    .btn-secondary:active {
+      background: #DFEDFF
+    }
+
+    @media (hover:hover) {
+      .btn-primary:hover {
+        background: #1269DB;
+        border-color: #1269DB
+      }
+
+      .btn-secondary:hover {
+        background: #E1EEFF
+      }
+    }
+
+    footer {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      direction: ltr
+    }
+
+    /* entrance animation: opacity + 8px rise, short, never blocks input */
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    @keyframes sig {
+      from {
+        opacity: .15
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    .brand {
+      animation: rise .3s ease-out both
+    }
+
+    .card {
+      animation: rise .3s ease-out .08s both
+    }
+
+    .wf1 {
+      animation: sig .25s ease-out .3s both
+    }
+
+    .wf2 {
+      animation: sig .25s ease-out .45s both
+    }
+
+    @media (max-height:600px) {
+      .stage {
+        gap: 10px;
+        justify-content: flex-start
+      }
+
+      .brand {
+        flex-direction: row;
+        justify-content: center;
+        gap: 10px
+      }
+
+      .brand svg {
+        width: 40px;
+        height: 40px
+      }
+
+      .card {
+        padding: 12px 14px
+      }
+
+      .sub {
+        margin-bottom: 8px
+      }
+
+      .field {
+        margin-bottom: 8px
+      }
+
+      .btn-primary {
+        margin-top: 8px
+      }
+
+      .btn-secondary {
+        margin-top: 8px
+      }
+    }
+
+    @media (max-width:340px) {
+      .page {
+        padding-inline: 14px
+      }
+
+      .card {
+        padding-inline: 14px
+      }
+    }
+
+    @media (min-width:600px) {
+      .page {
+        padding-block: 32px
+      }
+
+      .stage {
+        gap: 22px
+      }
+
+      .card {
+        padding: 24px
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="stage">
+
+      <header class="brand">
+        <!-- Logo: smartphone with Wi-Fi signal and charging bolt -->
+        <svg viewBox="0 0 64 64" role="img" aria-label="شعار الحلو للشحن والتبريد" fill="none">
+          <rect x="1" y="1" width="62" height="62" rx="16" fill="#EFF6FF" stroke="#D7E5F5" />
+          <rect x="19" y="10" width="26" height="44" rx="5.5" fill="#fff" stroke="#15304B" stroke-width="2.5" />
+          <path d="M29 14.5h6" stroke="#15304B" stroke-width="2" stroke-linecap="round" />
+          <circle cx="32" cy="29" r="1.8" fill="#1677F2" />
+          <path class="wf1" d="M28.46 25.46a5 5 0 0 1 7.08 0" stroke="#1677F2" stroke-width="2"
+            stroke-linecap="round" />
+          <path class="wf2" d="M25.64 22.64a9 9 0 0 1 12.72 0" stroke="#1677F2" stroke-width="2"
+            stroke-linecap="round" />
+          <path d="M33.5 33L28 41h4l-1.5 7L37 39h-4z" fill="#1677F2" stroke="#1677F2" stroke-width="1"
+            stroke-linejoin="round" />
+        </svg>
+        <p class="brand-name">الحلو للشحن والتبريد</p>
+      </header>
+
+      <main class="card">
+        <h1>أهلاً وسهلاً بكم</h1>
+        <p class="sub">سجّل دخولك للاتصال بالإنترنت</p>
+
+        <div id="alert" class="alert" role="alert" aria-live="assertive"></div>
+
+        <span id="err-src" class="alert-src">invalid username or password</span>
+
+
+        <form name="login" id="login" action="#" method="post" onsubmit="return onSubmit()" novalidate>
+          <input type="hidden" name="dst" value="http://example.com/">
+          <input type="hidden" name="popup" value="true">
+
+          <div class="field">
+            <label class="sr-only" for="username">اسم المستخدم</label>
+            <div class="control">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-3.6 3.6-6 8-6s8 2.4 8 6" />
+              </svg>
+              <input id="username" name="username" type="text" value="" placeholder="اسم المستخدم"
+                autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"
+                aria-describedby="username-err">
+            </div>
+            <p id="username-err" class="field-err">الرجاء إدخال اسم المستخدم</p>
+          </div>
+
+          <div class="field">
+            <label class="sr-only" for="password">كلمة المرور</label>
+            <div class="control has-toggle">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4.5" y="10.5" width="15" height="10" rx="2.5" />
+                <path d="M8 10.5V8a4 4 0 0 1 8 0v2.5" />
+              </svg>
+              <input id="password" name="password" type="password" placeholder="كلمة المرور"
+                autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false">
+              <button type="button" class="toggle" id="toggle" aria-label="إظهار كلمة المرور" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round" aria-hidden="true">
+                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+                  <circle cx="12" cy="12" r="3" />
+                  <path id="slash" d="M4 4l16 16" style="display:none" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="submit">تسجيل الدخول</button>
+        </form>
+
+        <!--
+        Free access = MikroTik's standard "trial" login (username T-<MAC>).
+        It only works if the administrator enables "trial" under the hotspot server profile
+        (Login By) and sets the trial uptime / user profile. Otherwise it returns a login error.
+      -->
+        <a class="btn btn-secondary" id="free"
+          href="#?dst=http%3A%2F%2Fexample.com%2F&amp;username=T-AA-BB-CC-DD-EE-FF">الدخول المجاني</a>
+      </main>
+
+      <footer>Powered by Ziyad</footer>
+    </div>
+  </div>
+
+
+
+  <script>
+    (function () {
+      var u = document.getElementById('username'), p = document.getElementById('password'),
+        ue = document.getElementById('username-err'), box = document.getElementById('alert'),
+        btn = document.getElementById('submit'), tg = document.getElementById('toggle');
+
+      tg.addEventListener('click', function () {
+        var show = p.type === 'password';
+        p.type = show ? 'text' : 'password';
+        tg.setAttribute('aria-pressed', show);
+        tg.setAttribute('aria-label', show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور');
+        document.getElementById('slash').style.display = show ? '' : 'none';
+      });
+
+      u.addEventListener('input', function () {u.removeAttribute('aria-invalid'); ue.className = 'field-err';});
+
+      /* MikroTik error -> Arabic (original text kept underneath for the admin) */
+      var src = document.getElementById('err-src');
+      if (src) {
+        var raw = (src.textContent || '').replace(/^\s+|\s+$/g, '');
+        if (raw) {
+          var l = raw.toLowerCase(), msg = 'تعذّر تسجيل الدخول. تحقّق من البيانات وحاول مرة أخرى.';
+          if (l.indexOf('invalid username or password') > -1) msg = 'اسم المستخدم أو كلمة المرور غير صحيحة.';
+          else if (l.indexOf('already logged in') > -1 || l.indexOf('simultaneous session') > -1 || l.indexOf('no more sessions') > -1) msg = 'هذا الحساب مستخدم حالياً على جهاز آخر.';
+          else if (l.indexOf('uptime limit') > -1 || l.indexOf('session time') > -1) msg = 'انتهى الوقت المسموح لهذا الحساب.';
+          else if (l.indexOf('traffic limit') > -1 || l.indexOf('transfer limit') > -1) msg = 'تم استهلاك حدّ البيانات المسموح لهذا الحساب.';
+          else if (l.indexOf('not responding') > -1 || l.indexOf('timeout') > -1) msg = 'خادم المصادقة لا يستجيب، حاول مرة أخرى بعد قليل.';
+          box.textContent = msg;
+          var s = document.createElement('small'); s.textContent = raw; box.appendChild(s);
+          box.className = 'alert show';
+        }
+      }
+
+      window.onSubmit = function () {
+        if (!u.value.replace(/^\s+|\s+$/g, '')) {
+          u.setAttribute('aria-invalid', 'true'); ue.className = 'field-err show'; u.focus();
+          return false;
+        }
+        btn.textContent = 'جارٍ الاتصال…'; btn.disabled = true;
+        return doLogin();
+      };
+      window.addEventListener('pageshow', function () {btn.textContent = 'تسجيل الدخول'; btn.disabled = false;});
+    })();
+
+    function doLogin() {
+
+      return true;
+
+    }
+  </script>
+</body>
+
+</html>
